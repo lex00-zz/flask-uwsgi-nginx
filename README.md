@@ -57,13 +57,60 @@ Logs will be placed in `/var/log/{{ app_name }}`
 
 They will be owned by `{{ app_user }}`
 
+## Vagrant Example
+
+Create a `requirements.yml` with these contents:
+
+```sh
+---
+- src: lex00.flask-uwsgi-nginx
+```
+
+The provisioner needs `galaxy_role_file` set to this.
+
+```sh
+config.vm.provision "ansible", type: "ansible_local" do |ansible|
+  ansible.verbose = true
+  ansible.become = true
+  ansible.extra_vars = "vars.json"
+  ansible.config_file = "ansible.cfg"
+  ansible.galaxy_roles_path = "roles"
+  ansible.galaxy_role_file = "requirements.yml"
+  ansible.playbook = "playbook.yml"
+end
+```
+
+## Packer Example
+
+Create a `requirements.yml` with these contents:
+
+```sh
+---
+- src: lex00.flask-uwsgi-nginx
+```
+
+The provisioner needs `galaxy_file` set to this.
+
+```json
+{
+  "type": "ansible-local",
+  "host_vars": "{{ user `vars_path` }}",
+  "playbook_dir": "{{ user `ansible_path` }}",
+  "playbook_paths": "{{ user `ansible_path` }}",
+  "role_paths": "{{ user `ansible_path` }}/roles",
+  "playbook_file": "{{ user `ansible_path` }}/nublar.yml",
+  "galaxy_file": "{{ user `ansible_path` }}/requirements.yml",
+  "extra_arguments": [ "--extra-vars \"@host_vars/vars.json\"" ]
+}
+```
+
 ## Example Playbook
 
 ```yml
 - hosts: all
   tasks:
   - import_role:
-       name: flask-uwsgi-nginx
+       name: lex00.flask-uwsgi-nginx
     vars:
       # python repository containing flask application
       app_repo_url: 'https://github.com/lex00/nublar'
