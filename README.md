@@ -1,10 +1,11 @@
-# flask-uwsgi-nginx
+# README.md
+# Ansible Role: flask-uwsgi-nginx
 
 This role for Ansible deploys your Flask application from a git source repository.
 
 The role packages your Flask app as a wheel and then installs it into a virtualenv.
 
-## Repository requirements
+## Requirements
 
 -   `.python-version` file
 
@@ -56,7 +57,7 @@ Logs will be placed in `/var/log/{{ app_name }}`
 
 They will be owned by `{{ app_user }}`
 
-## example
+## Example Playbook
 
 ```yml
 - hosts: all
@@ -97,3 +98,7 @@ They will be owned by `{{ app_user }}`
       # number of uwsgi processes
       uwsgi_process_count: '10'
   ```
+
+  ## License
+
+  MIT
