@@ -1,0 +1,19 @@
+[uwsgi]
+chdir = {{ venv_dir }}
+module = {{ app_module }}
+home = {{ venv_dir }}
+callable = {{ app_callable }}
+
+socket = {{ uwsgi_socket_file }}
+pidfile = {{ uwsgi_pid_file }}
+chmod-socket = 664
+chown-socket = {{ app_user }}:{{ app_user }}
+
+master = true
+processes = {{ uwsgi_process_count }}
+die-on-term = true
+
+uid = {{ app_user }}
+gid = {{ app_user }}
+
+logto = {{ log_dir }}/{{ app_name }}.log

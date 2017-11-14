@@ -1,0 +1,17 @@
+# THIS TEMPLATE WAS ORIGINALLY SOURCED FROM:
+# https://github.com/savoirfairelinux/ansible-uwsgi-nginx
+# GNU v3
+
+server {
+    server_name {{ app_domain }};
+
+    listen {{ app_port }}; listen [::]:{{ app_port }};
+
+    error_log /var/log/nginx/{{ app_name }}_error.log;
+    access_log /var/log/nginx/{{ app_name }}_access.log;
+
+    location / {
+        uwsgi_pass  unix:{{ uwsgi_socket_file }};
+        include     uwsgi_params;
+    }
+}

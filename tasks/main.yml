@@ -1,0 +1,197 @@
+---
+
+####
+# system group and user, + bash profile for pyenv
+####
+- group:
+    name: '{{ app_user }}'
+    state: present
+- user:
+    name: '{{ app_user }}'
+    shell: /bin/bash
+    groups: '{{ app_user }}'
+- name: setup pyenv bash profile for {{ app_user }}
+  template:
+    src: templates/pyenv_profile.sh.j2
+    dest: '/home/{{ app_user }}/.bash_profile'
+    owner: '{{ app_user }}'
+    group: '{{ app_user }}'
+    mode: 'u=rwx,g=rx,o=rx'
+
+####
+# app directories
+####
+- name: make folders
+  file:
+    state: directory
+    path: '{{ item }}'
+    owner: '{{ app_user }}'
+    group: '{{ app_user }}'
+  with_items:
+    - '{{ log_dir }}'
+    - '{{ app_dir }}'
+    - '{{ app_source_dir }}'
+
+####
+# install pyenv
+####
+- name: pyenv install dir
+  file:
+    state: directory
+    path: '{{ pyenv_base }}'
+    owner: '{{ app_user }}'
+    group: '{{ app_user }}'
+- name: pyenv system dependencies
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - make
+    - build-essential
+    - libssl-dev
+    - zlib1g-dev
+    - libbz2-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - wget
+    - curl
+    - llvm
+    - libncurses5-dev
+    - libncursesw5-dev
+    - xz-utils
+    - tk-dev
+- name: clone pyenv repo
+  git:
+    repo: 'https://github.com/yyuu/pyenv.git'
+    dest: '{{ pyenv_base }}'
+  become: yes
+  become_user: '{{ app_user }}'
+
+####
+# install desired python version into pyenv, + build tools
+####
+- name: clone app repo
+  git:
+    repo: '{{ app_repo_url }}'
+    dest: '{{ app_source_dir }}'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: get desired python version
+  shell: 'cat .python-version chdir={{ app_build_dir }}'
+  register: python_version_out
+- set_fact:
+    python_version: '{{ python_version_out.stdout }}'
+- set_fact:
+    python_base: '{{ pyenv_base }}/versions/{{ python_version }}'
+- set_fact:
+    pip_binary: '{{ python_base }}/bin/pip'
+- set_fact:
+    python_binary: '{{ python_base }}/bin/python'
+- set_fact:
+    venv_binary: '{{ python_base }}/bin/virtualenv'
+- name: install python {{ python_version }}
+  shell: '{{ pyenv_binary }} install {{ python_version }} creates={{ pyenv_base }}/versions/{{ python_version }}'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: install build tools
+  shell: '{{ pip_binary }} install wheel virtualenv'
+  become: yes
+  become_user: '{{ app_user }}'
+
+####
+# wipe build directories clean
+####
+- name: cleanup dist
+  file:
+    state: absent
+    path: '{{ app_source_dir }}/dist'
+- name: cleanup wheelhouse
+  file:
+    state: absent
+    path: '{{ wheelhouse_dir }}'
+- name: cleanup venv
+  file:
+    state: absent
+    path: '{{ venv_dir }}'
+
+####
+# build wheelhouse and install to a venv
+####
+- name: uwsgi system dependencies
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - libpcre3
+    - libpcre3-dev
+- name: build wheel
+  command: '{{ python_binary }} setup.py bdist_wheel chdir={{ app_build_dir }}'
+- name: get wheel name
+  shell: 'ls -1 dist/*.whl chdir={{ app_build_dir }}'
+  register: wheel_name
+- name: build wheelhouse
+  command: '{{ pip_binary }} wheel --wheel-dir={{ wheelhouse_dir }} {{ wheel_name.stdout }} chdir={{ app_build_dir }}'
+- name: create venv
+  command: '{{ venv_binary }} {{ venv_dir }}'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: install uwsgi
+  command: '{{ venv_pip_binary }} install uwsgi'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: install app from cached wheels
+  command: '{{ venv_pip_binary }} install --use-wheel --no-index --find-links={{ wheelhouse_dir }} {{ app_module }} chdir={{ app_build_dir }}'
+  become: yes
+  become_user: '{{ app_user }}'
+
+####
+# setup our service with uwsgi and nginx
+####
+- package:
+    name: nginx
+    state: present
+- user:
+    name: 'www-data'
+    groups: '{{ app_user }}'
+    append: true
+- name: app init script
+  template:
+    src: templates/systemd_service.j2
+    dest: '/etc/systemd/system/{{ app_name }}.service'
+    mode: 'u=rwx,g=rx,o=rx'
+- name: uwsgi configs
+  template:
+    src: templates/uwsgi.ini.j2
+    dest: "{{ app_dir }}/{{ app_name }}.ini"
+    owner: '{{ app_user }}'
+    group: '{{ app_user }}'
+    mode: 'u=rwx,g=rx,o=rx'
+  notify:
+    - 'restart {{ app_name }}'
+- name: nginx config
+  template:
+    src: templates/nginx.conf.j2
+    dest: '/etc/nginx/sites-available/{{ app_name }}.conf'
+    mode: 'u=rwx,g=rx,o=rx'
+  notify:
+     - restart nginx
+- file:
+    path: '/etc/nginx/sites-enabled/default'
+    state: absent
+- file:
+    src: '/etc/nginx/sites-available/{{ app_name }}.conf'
+    dest: '/etc/nginx/sites-enabled/{{ app_name }}.conf'
+    state: link
+
+####
+# check health endpoint
+####
+- meta: flush_handlers
+- uri:
+    url: 'http://localhost:{{ app_port }}{{ app_health_ep }}'
+    return_content: yes
+  register: healthy
+
+- name: Fail if not healthy
+  fail:
+  when: healthy.status != 200

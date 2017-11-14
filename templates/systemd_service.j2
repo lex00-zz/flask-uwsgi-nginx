@@ -1,0 +1,13 @@
+[Unit]
+Description={{ app_description }}
+
+[Service]
+User={{ app_user }}
+Group={{ app_user }}
+Type=simple
+RuntimeDirectory={{ app_name }}
+ExecStart={{ venv_dir }}/bin/uwsgi --ini {{ app_dir }}/{{ app_name }}.ini
+PIDFile={{ uwsgi_pid_file }}
+
+[Install]
+WantedBy=multi-user.target

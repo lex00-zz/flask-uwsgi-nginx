@@ -1,0 +1,62 @@
+###
+# SET ALL OF THESE
+###
+
+# python repository containing flask application
+app_repo_url: ''
+
+# if your project is in a subfolder in the repo, specify this here, otherwise set blank
+app_subfolder: ''
+
+# this will go into the system service script
+app_description: ''
+
+# app folders and service name
+app_name: ''
+
+# system user and group will both be this value
+app_user: ''
+
+# domain that nginx will answer to
+app_domain: ''
+
+# python module for uwsgi.ini
+app_module: ''
+
+# python callable for uwsgi.ini
+app_callable: ''
+
+# service port
+app_port: ''
+
+# health endpoint
+app_health_ep: ''
+
+# number of uwsgi processes
+uwsgi_process_count: 10
+
+
+
+###
+# (NO NEED TO EDIT BELOW THIS LINE)
+###
+app_source_dir: '/var/cache/{{ app_name }}'
+app_build_dir: '{{ app_source_dir }}/{{ app_subfolder }}'
+wheelhouse_dir: '{{ app_build_dir }}/wheelhouse'
+log_dir: '/var/log/{{ app_name }}'
+app_dir: '/opt/{{ app_name }}'
+venv_dir: '{{ app_dir }}/venv'
+venv_python_binary:  '{{ app_dir }}/venv/bin/python'
+venv_pip_binary:  '{{ app_dir }}/venv/bin/pip'
+socket_dir: '/var/run/{{ app_name }}'
+uwsgi_pid_file: '{{ socket_dir }}/{{ app_name }}.pid'
+uwsgi_socket_file: '{{ socket_dir }}/{{ app_name }}.sock'
+
+pyenv_base: '/home/{{ app_user }}/.pyenv'
+pyenv_binary: '{{ pyenv_base }}/bin/pyenv'
+
+python_version: ''
+python_base: ''
+pip_binary: ''
+python_binary: ''
+venv_binary: ''
