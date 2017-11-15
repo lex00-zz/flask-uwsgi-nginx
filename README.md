@@ -105,7 +105,7 @@ Logs will be placed in `/var/log/{{ app_name }}`
 
 They will be owned by `{{ app_user }}`
 
-## Vagrant Example
+## Vagrant + Galaxy Example
 
 Create a `requirements.yml` with these contents:
 
@@ -128,7 +128,7 @@ config.vm.provision "ansible", type: "ansible_local" do |ansible|
 end
 ```
 
-## Packer Example
+## Packer + Galaxy Example
 
 Create a `requirements.yml` with these contents:
 
@@ -152,7 +152,7 @@ The provisioner needs `galaxy_file` set to this.
 }
 ```
 
-## Development
+## How to edit this role
 
 If you would like to make a pull request for this project, there is a `tests` folder with a `Vagrantfile` ready to run the role.
 
