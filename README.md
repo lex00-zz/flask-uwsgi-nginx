@@ -152,6 +152,27 @@ The provisioner needs `galaxy_file` set to this.
 }
 ```
 
+## Development
+
+If you would like to make a pull request for this project, there is a `tests` folder with a `Vagrantfile` ready to run the role.
+
+Vagrant > 2.0 is required.
+
+To execute the role:
+
+```sh
+flask-uwsgi-nginx $ cd tests
+flask-uwsgi-nginx/tests $ vagrant up
+```
+
+The Vagrant should provision cleanly.
+
+You can run the role again with:
+
+```sh
+flask-uwsgi-nginx/tests $ vagrant provision
+```
+
 ## License
 
 MIT
