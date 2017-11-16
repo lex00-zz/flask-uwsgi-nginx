@@ -1,0 +1,14 @@
+---
+
+####
+# check health endpoint
+####
+- meta: flush_handlers
+- uri:
+    url: 'http://localhost:{{ app_port }}{{ app_health_ep }}'
+    return_content: yes
+  register: healthy
+
+- name: Fail if not healthy
+  fail:
+  when: healthy.status != 200

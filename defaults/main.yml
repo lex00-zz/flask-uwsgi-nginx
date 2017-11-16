@@ -36,7 +36,6 @@ app_health_ep: ''
 uwsgi_process_count: 10
 
 
-
 ###
 # (NO NEED TO EDIT BELOW THIS LINE)
 ###
@@ -51,7 +50,6 @@ venv_pip_binary:  '{{ app_dir }}/venv/bin/pip'
 socket_dir: '/var/run/{{ app_name }}'
 uwsgi_pid_file: '{{ socket_dir }}/{{ app_name }}.pid'
 uwsgi_socket_file: '{{ socket_dir }}/{{ app_name }}.sock'
-
 pyenv_base: '/home/{{ app_user }}/.pyenv'
 pyenv_binary: '{{ pyenv_base }}/bin/pyenv'
 

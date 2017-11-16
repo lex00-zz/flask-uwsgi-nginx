@@ -1,0 +1,19 @@
+---
+
+####
+# start flask app under uwsgi as a systemd service
+####
+- name: app init script
+  template:
+    src: templates/systemd_service.j2
+    dest: '/etc/systemd/system/{{ app_name }}.service'
+    mode: 'u=rwx,g=rx,o=rx'
+- name: uwsgi configs
+  template:
+    src: templates/uwsgi.ini.j2
+    dest: "{{ app_dir }}/{{ app_name }}.ini"
+    owner: '{{ app_user }}'
+    group: '{{ app_user }}'
+    mode: 'u=rwx,g=rx,o=rx'
+  notify:
+    - 'restart {{ app_name }}'

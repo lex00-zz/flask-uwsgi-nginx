@@ -1,7 +1,3 @@
-# THIS TEMPLATE WAS ORIGINALLY SOURCED FROM:
-# https://github.com/savoirfairelinux/ansible-uwsgi-nginx
-# GNU v3
-
 server {
     server_name {{ app_domain }};
 
@@ -14,4 +10,13 @@ server {
         uwsgi_pass  unix:{{ uwsgi_socket_file }};
         include     uwsgi_params;
     }
+
+    {% set static_folders = uwsgi_static_folders.stdout.split('\n') %}
+    {% for uwsgi_static_folder in static_folders %}
+    location ^~ {{uwsgi_static_folder}}  {
+        access_log off;
+        root {{uwsgi_static_root.stdout}};
+        expires max;
+    }
+    {% endfor -%}
 }

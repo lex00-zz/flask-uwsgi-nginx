@@ -87,6 +87,18 @@ This will be used by systemd to run your Flask app as a service.
 
     `/var/run/{{ app_name }}/{{ app_name }}.pid`
 
+## Flask static assets
+
+This role will autodiscover your static asset folders and configure them in nginx.
+
+For this to work:
+-   Put your assets in a folder called `static` in your flask app module.
+
+-   set `static_url_path` to blank
+    ```python
+    app = Flask(__name__, static_url_path='')
+    ```
+
 ## service management
 
 Start/Stop the Uwsgi service

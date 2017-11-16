@@ -8,6 +8,6 @@
   "app_module": "nublar_example_python_flask",
   "app_callable": "app",
   "app_port": "80",
-  "app_health_ep": "/",
+  "app_health_ep": "/health",
   "uwsgi_process_count": "10"
 }

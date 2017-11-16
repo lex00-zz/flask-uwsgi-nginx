@@ -1,0 +1,67 @@
+---
+
+####
+# install pyenv
+####
+- name: pyenv install dir
+  file:
+    state: directory
+    path: '{{ pyenv_base }}'
+    owner: '{{ app_user }}'
+    group: '{{ app_user }}'
+- name: pyenv system dependencies
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - make
+    - build-essential
+    - libssl-dev
+    - zlib1g-dev
+    - libbz2-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - wget
+    - curl
+    - llvm
+    - libncurses5-dev
+    - libncursesw5-dev
+    - xz-utils
+    - tk-dev
+- name: clone pyenv repo
+  git:
+    repo: 'https://github.com/yyuu/pyenv.git'
+    dest: '{{ pyenv_base }}'
+  become: yes
+  become_user: '{{ app_user }}'
+
+####
+# install desired python version into pyenv, + build tools
+####
+- name: clone app repo
+  git:
+    repo: '{{ app_repo_url }}'
+    dest: '{{ app_source_dir }}'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: get desired python version
+  shell: 'cat .python-version chdir={{ app_build_dir }}'
+  register: python_version_out
+- set_fact:
+    python_version: '{{ python_version_out.stdout }}'
+- set_fact:
+    python_base: '{{ pyenv_base }}/versions/{{ python_version }}'
+- set_fact:
+    pip_binary: '{{ python_base }}/bin/pip'
+- set_fact:
+    python_binary: '{{ python_base }}/bin/python'
+- set_fact:
+    venv_binary: '{{ python_base }}/bin/virtualenv'
+- name: install python {{ python_version }}
+  shell: '{{ pyenv_binary }} install {{ python_version }} creates={{ pyenv_base }}/versions/{{ python_version }}'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: install build tools
+  shell: '{{ pip_binary }} install wheel virtualenv'
+  become: yes
+  become_user: '{{ app_user }}'
