@@ -3,4 +3,4 @@
 - hosts: all
   tasks:
   - import_role:
-       name: lex00.flask-uwsgi-nginx
+       name: flask-uwsgi-nginx
