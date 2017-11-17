@@ -1,12 +1,14 @@
 ---
 - name: 'restart {{ app_name }}'
-  service:
+  systemd:
     name: '{{ app_name }}'
     state: restarted
-    use: service
+    enabled: yes
+    daemon_reload: yes
 
 - name: 'restart nginx'
-  service:
+  systemd:
     name: 'nginx'
     state: restarted
-    use: service
+    enabled: yes
+    daemon_reload: yes
