@@ -18,7 +18,7 @@ before_install:
 
 install:
   # Install Ansible.
-  - pip install ansible; else pip install ansible ansible-lint
+  - pip install ansible ansible-lint
 
 script:
   # Check the role/playbook's syntax.
