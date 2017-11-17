@@ -57,6 +57,14 @@
     python_binary: '{{ python_base }}/bin/python'
 - set_fact:
     venv_binary: '{{ python_base }}/bin/virtualenv'
+- name: update python-build plugins
+  shell: 'git pull chdir={{ pyenv_base }}/plugins/python-build'
+  become: yes
+  become_user: '{{ app_user }}'
+- name: list available python versions
+  shell: '{{ pyenv_binary }} install --list'
+  become: yes
+  become_user: '{{ app_user }}'
 - name: install python {{ python_version }}
   shell: '{{ pyenv_binary }} install {{ python_version }} creates={{ pyenv_base }}/versions/{{ python_version }}'
   become: yes
