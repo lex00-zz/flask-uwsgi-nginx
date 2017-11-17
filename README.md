@@ -188,3 +188,4 @@ flask-uwsgi-nginx/tests $ vagrant provision
 ## License
 
 MIT
+
