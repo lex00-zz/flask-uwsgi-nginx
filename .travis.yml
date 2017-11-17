@@ -8,6 +8,7 @@ python: "2.7"
 env:
   - ANSIBLE_VERSION=latest
   - ANSIBLE_CONFIG=tests/ansible.cfg
+  - PENV_ROOT=/home/nublar/.pyenv
 
 branches:
   only:
@@ -22,7 +23,7 @@ addons:
   apt:
     packages:
       - python-pip
-      
+
 install:
   # Install Ansible.
   - pip install ansible ansible-lint
