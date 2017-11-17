@@ -8,7 +8,9 @@ console log
 respawn
 respawn limit 10 5
 
-setuid {{ app_user }}
-setgid {{ app_user }}
+pre-start script
+    mkdir -p -m 0775 {{ socket_dir }}
+    chown {{ app_user }}:{{ app_user }} {{ socket_dir }}
+end script
 
-exec /opt/nublar/venv/bin/uwsgi --master --ini /opt/nublar/nublar.ini
+exec sudo -u {{ app_user }} /opt/nublar/venv/bin/uwsgi --master --ini /opt/nublar/nublar.ini

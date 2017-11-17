@@ -24,3 +24,5 @@
     src: '/etc/nginx/sites-available/{{ app_name }}.conf'
     dest: '/etc/nginx/sites-enabled/{{ app_name }}.conf'
     state: link
+  notify:
+     - restart nginx
