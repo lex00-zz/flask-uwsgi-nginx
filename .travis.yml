@@ -20,9 +20,13 @@ install:
   # Install Ansible.
   - pip install ansible ansible-lint
 
+addons:
+  ssh_known_hosts:
+  - localhost
+
 script:
   # Check the role/playbook's syntax.
   - ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml -vvvv --skip-tags update,copy_host_ssh_id
+  - ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml --connection=local -vvvv --skip-tags update,copy_host_ssh_id
