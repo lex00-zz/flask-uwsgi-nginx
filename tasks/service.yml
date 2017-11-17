@@ -16,4 +16,5 @@
     group: '{{ app_user }}'
     mode: 'u=rwx,g=rx,o=rx'
   notify:
+    - 'reload systemd'
     - 'restart {{ app_name }}'
