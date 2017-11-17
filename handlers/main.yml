@@ -3,12 +3,10 @@
   service:
     name: '{{ app_name }}'
     state: restarted
-    enabled: yes
     use: service
 
 - name: 'restart nginx'
   service:
     name: 'nginx'
     state: restarted
-    enabled: yes
     use: service
