@@ -16,13 +16,17 @@ branches:
 before_install:
   - sudo apt-get update -y -qq
 
+addons:
+  ssh_known_hosts:
+    - localhost
+  apt:
+    packages:
+      - python-pip
+      
 install:
   # Install Ansible.
   - pip install ansible ansible-lint
 
-addons:
-  ssh_known_hosts:
-  - localhost
 
 script:
   # Check the role/playbook's syntax.
@@ -30,3 +34,6 @@ script:
 
   # Run the role/playbook with ansible-playbook.
   - ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml --connection=local -vvvv --skip-tags update,copy_host_ssh_id
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
