@@ -28,6 +28,7 @@
     - libncursesw5-dev
     - xz-utils
     - tk-dev
+    - git
 - name: clone pyenv repo
   git:
     repo: 'https://github.com/yyuu/pyenv.git'
@@ -61,10 +62,10 @@
   shell: 'git pull chdir={{ pyenv_base }}/plugins/python-build'
   become: yes
   become_user: '{{ app_user }}'
-- name: list available python versions
-  shell: '{{ pyenv_binary }} install --list'
-  become: yes
-  become_user: '{{ app_user }}'
+#- name: list available python versions
+#  shell: '{{ pyenv_binary }} install --list'
+#  become: yes
+#  become_user: '{{ app_user }}'
 - name: install python {{ python_version }}
   shell: '{{ pyenv_binary }} install {{ python_version }} creates={{ pyenv_base }}/versions/{{ python_version }}'
   become: yes

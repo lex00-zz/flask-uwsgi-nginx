@@ -8,9 +8,7 @@ console log
 respawn
 respawn limit 10 5
 
-env USER={{ app_user }}
-env PID={{ uwsgi_pid_file }}
+setuid {{ app_user }}
+setgid {{ app_user }}
 
-exec start-stop-daemon --start --make-pidfile --pidfile $PID \
---chuid $USER \
---exec {{ venv_dir }}/bin/uwsgi --ini {{ app_dir }}/{{ app_name }}.ini
+exec /opt/nublar/venv/bin/uwsgi --master --ini /opt/nublar/nublar.ini

@@ -31,6 +31,7 @@
     - '{{ log_dir }}'
     - '{{ app_dir }}'
     - '{{ app_source_dir }}'
+    - '{{ socket_dir }}'
 
 ####
 # add nginx user to app group

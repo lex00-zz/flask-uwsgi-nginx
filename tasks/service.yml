@@ -21,4 +21,5 @@
     group: '{{ app_user }}'
     mode: 'u=rwx,g=rx,o=rx'
   notify:
-    - 'restart {{ app_name }}'
+    - 'stop {{ app_name }}'
+    - 'start {{ app_name }}'
