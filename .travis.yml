@@ -7,7 +7,6 @@ python: "2.7"
 
 env:
   - ANSIBLE_VERSION=latest
-  - ANSIBLE_CONFIG=tests/ansible.cfg
   - PYENV_ROOT=/home/nublar/.pyenv
 
 branches:
