@@ -103,12 +103,12 @@ For this to work:
 
 Start/Stop the Uwsgi service
 ```sh
-sudo systemctl start {{ app_name }}
+sudo start {{ app_name }}
 ```
 
 Start/Stop Nginx
 ```sh
-sudo systemctl start nginx
+sudo start nginx
 ```
 
 ## logs
@@ -188,4 +188,3 @@ flask-uwsgi-nginx/tests $ vagrant provision
 ## License
 
 MIT
-

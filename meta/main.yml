@@ -2,13 +2,13 @@
 galaxy_info:
   author: Alex Artigues
   description: Deploy Flask from a git source repository
-  company: 
+  company:
   license: MIT
   min_ansible_version: 2.4
   platforms:
   - name: Ubuntu
     versions:
-    - xenial
+    - trusty
   galaxy_tags:
     - installer
     - flask
