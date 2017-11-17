@@ -1,9 +1,5 @@
 ---
 
-- name: 'reload systemd'
-  shell: 'systemctl daemon-reload'
-  become: yes
-
 - name: 'restart {{ app_name }}'
   service:
     name: '{{ app_name }}'

@@ -1,9 +1,5 @@
 ---
 
-- name: 'find systemctl'
-  shell: 'find / -iname systemctl'
-  become: yes
-
 - import_tasks: 'system.yml'
 
 - import_tasks: 'pyenv.yml'

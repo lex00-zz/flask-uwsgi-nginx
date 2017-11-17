@@ -77,7 +77,7 @@ The Uwsgi config is here:
 
 `/opt/{{ app_name }}/app_name.ini`
 
-This will be used by systemd to run your Flask app as a service.
+This will be used by uwsgi to run your Flask app as a service.
 
 -   socket file
 
