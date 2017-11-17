@@ -1,7 +1,6 @@
 ---
 
 - hosts: localhost
-  become: true
-  tasks:
-  - import_role:
-       name: flask-uwsgi-nginx
+  remote_user: root
+  roles:
+    - flask-uwsgi-nginx
