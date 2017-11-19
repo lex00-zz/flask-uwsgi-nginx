@@ -81,7 +81,6 @@ Vagrant.configure("2") do |config|
   #SHELL
   config.vm.provision "ansible", type: "ansible_local" do |ansible|
     ansible.verbose = true
-    ansible.become = true
     ansible.extra_vars = "tests/test.json"
     ansible.config_file = "ansible.cfg"
     ansible.playbook = "tests/test.yml"
