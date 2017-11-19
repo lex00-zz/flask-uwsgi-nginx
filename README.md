@@ -17,25 +17,25 @@ The role packages your Flask app as a wheel and then installs it into a virtuale
 
 ## Role Variables
 
-**app_repo_url**: 'https://github.com/lex00/nublar'
+**app_repo_url**: 'https://github.com/lex00/flask-github-jobs'
 -   python repository containing flask application
 
-**app_subfolder**: 'python/flask'
+**app_subfolder**: ''
 -   if your project is in a subfolder in the repo, specify this here, otherwise set blank
 
-**app_description**: 'A nublar example in Flask'
+**app_description**: 'A Flask that lists jobs from the github jobs API'
 -   this will go into the system service script
 
-**app_name**: 'nublar'
+**app_name**: 'flask_github_jobs'
 -   app folders and service name
 
-**app_user**: 'nublar'
+**app_user**: 'flask_github_jobs'
 -   system user and group will both be this value
 
 **app_domain**: 'notarealdomain.com'
 -   domain that nginx will answer to
 
-**app_module**: 'nublar_example_python_flask'
+**app_module**: 'flask_github_jobs'
 -   python module for uwsgi.ini
 
 **app_callable**: 'app'
@@ -158,26 +158,29 @@ The provisioner needs `galaxy_file` set to this.
   "playbook_dir": "{{ user `ansible_path` }}",
   "playbook_paths": "{{ user `ansible_path` }}",
   "role_paths": "{{ user `ansible_path` }}/roles",
-  "playbook_file": "{{ user `ansible_path` }}/nublar.yml",
+  "playbook_file": "{{ user `ansible_path` }}/playbook.yml",
   "galaxy_file": "{{ user `ansible_path` }}/requirements.yml",
   "extra_arguments": [ "--extra-vars \"@host_vars/vars.json\"" ]
 }
 ```
 
-## How to edit this role
+## Testing with Vagrant
 
-If you would like to make a pull request for this project, there is a `tests` folder with a `Vagrantfile` ready to run the role.
+A `Vagrantfile` is included to help test the role locally.
 
 Vagrant > 2.0 is required.
 
-To execute the role:
+#### Start the Vagrant
+
+The first time you do this, it will run Ansible.
 
 ```sh
-flask-uwsgi-nginx $ cd tests
-flask-uwsgi-nginx/tests $ vagrant up
+flask-uwsgi-nginx$ vagrant up
 ```
 
 The Vagrant should provision cleanly.
+
+#### Reprovision the Vagrant
 
 You can run the role again with:
 

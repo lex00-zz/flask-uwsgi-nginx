@@ -23,3 +23,11 @@
   notify:
     - 'stop {{ app_name }}'
     - 'start {{ app_name }}'
+
+- meta: flush_handlers
+- name: 'running {{ app_name }}'
+  service:
+    name: '{{ app_name }}'
+    state: started
+    enabled: yes
+    use: service

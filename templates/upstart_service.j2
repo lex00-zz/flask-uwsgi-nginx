@@ -13,4 +13,4 @@ pre-start script
     chown {{ app_user }}:{{ app_user }} {{ socket_dir }}
 end script
 
-exec sudo -u {{ app_user }} /opt/nublar/venv/bin/uwsgi --master --ini /opt/nublar/nublar.ini
+exec sudo -u {{ app_user }} {{ venv_dir }}/bin/uwsgi --master --ini {{ app_dir }}/{{ app_name }}.ini

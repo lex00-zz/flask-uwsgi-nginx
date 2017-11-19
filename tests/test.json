@@ -1,13 +1,13 @@
 {
-  "app_repo_url": "https://github.com/lex00/nublar",
-  "app_subfolder": "python/flask",
-  "app_description": "A nublar example in Flask",
-  "app_name": "nublar",
-  "app_user": "nublar",
+  "app_repo_url": "https://github.com/lex00/flask-github-jobs",
+  "app_subfolder": "",
+  "app_description": "A simple Flask to list jobs from the Github jobs API",
+  "app_name": "flask_github_jobs",
+  "app_user": "flask_github_jobs",
   "app_domain": "notarealdomain.com",
-  "app_module": "nublar_example_python_flask",
+  "app_module": "flask_github_jobs",
   "app_callable": "app",
-  "app_port": "80",
+  "app_port": "3000",
   "app_health_ep": "/health",
   "uwsgi_process_count": "10"
 }
