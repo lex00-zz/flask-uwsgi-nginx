@@ -24,6 +24,8 @@
     - 'stop {{ app_name }}'
     - 'start {{ app_name }}'
 
+# this flush + started we need every time
+# our upstart script does not support restart...
 - meta: flush_handlers
 - name: 'running {{ app_name }}'
   service:
