@@ -17,4 +17,4 @@ before_script:
   - docker ps -a
 
 script:
-  - docker run --rm -v /usr/bin:/usr/bin --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:1404 /bin/sh -c " cd /flask-uwsgi-nginx; ./ci.sh"
+  - docker run --rm -v /usr/bin:/usr/bin --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04 /bin/sh -c " cd /flask-uwsgi-nginx; ./ci.sh"
