@@ -13,7 +13,7 @@ branches:
 
 before_script:
   - docker pull ubuntu:14.04
-  - docker run --name flask_uwsgi_nginx --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04 bash
+  - docker run -d --name flask_uwsgi_nginx --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04 bash
   - docker ps -a
 
 script:
