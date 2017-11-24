@@ -1,3 +1,5 @@
+#!/bin/bash
+
 apt-get update -y -qq
 apt-get install python-pip
 pip install ansible ansible-lint
