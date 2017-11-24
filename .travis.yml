@@ -1,38 +1,32 @@
 ---
 sudo: required
-dist: trusty
 
 language: python
 python: "2.7"
 
-env:
-  - PYENV_ROOT=/home/flask_github_jobs/.pyenv
+services:
+  - docker
 
 branches:
   only:
     - master
 
-before_install:
-  - sudo apt-get update -y -qq
-
-addons:
-  ssh_known_hosts:
-    - localhost
-  apt:
-    packages:
-      - python-pip
+before_script:
+  - docker pull ubuntu:14.04
+  - docker run -d -p 127.0.0.1 ubuntu:14.04 /bin/sh
+  - docker ps -a
 
 install:
   # Install Ansible.
-  - pip install ansible ansible-lint
 
 
 script:
+  - sudo apt-get update -y -qq
+  - sudo apt-get install python-pip
+  - pip install ansible ansible-lint
+
   # Check the role/playbook's syntax.
   - ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml --syntax-check
 
   # Run the role/playbook with ansible-playbook.
   - ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml --connection=local -vvvv --skip-tags update,copy_host_ssh_id
-
-notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
