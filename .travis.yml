@@ -16,7 +16,6 @@ before_script:
   - docker pull ubuntu:16.04
 
 script:
-  - echo "######## STARTING TEST FOR UBUNTU TRUSTY - 14.04 ########"
   - docker run -dt --name flask-uwsgi-nginx-ubuntu-14 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04
   - docker ps -a
   - docker exec flask-uwsgi-nginx-ubuntu-14 /flask-uwsgi-nginx/tests/ci_ubuntu.sh
@@ -24,7 +23,6 @@ script:
   - docker exec flask-uwsgi-nginx-ubuntu-14 /flask-uwsgi-nginx/tests/test.py
   - docker stop flask-uwsgi-nginx-ubuntu-14
   - docker rm flask-uwsgi-nginx-ubuntu-14
-  - echo "######## STARTING TEST FOR UBUNTU XENIAL - 16.04 ########"
   - docker run -dt --name flask-uwsgi-nginx-ubuntu-16 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:16.04
   - docker ps -a
   - docker exec flask-uwsgi-nginx-ubuntu-16 /flask-uwsgi-nginx/tests/ci_ubuntu.sh
