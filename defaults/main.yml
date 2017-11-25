@@ -33,7 +33,10 @@ app_port: ''
 app_health_ep: ''
 
 # number of uwsgi processes
-uwsgi_process_count: 10
+uwsgi_process_count: 4
+
+# number of uwsgi threads
+uwsgi_thread_count: 2
 
 
 ###
