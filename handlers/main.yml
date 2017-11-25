@@ -35,10 +35,17 @@
     daemon_reload: yes
   when: not is_docker
 
-- name: 'restart nginx'
+- name: 'Ubuntu upstart restart nginx'
   service:
     name: 'nginx'
     state: restarted
     enabled: yes
     use: service
+
+- name: 'Ubuntu systemd restart nginx'
+  systemd:
+    name: 'nginx'
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
   when: not is_docker

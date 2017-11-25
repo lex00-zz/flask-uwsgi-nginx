@@ -12,6 +12,13 @@
   when: detect_docker.rc == 0
 
 ####
+# DETECT UPSTART
+####
+- set_fact:
+    init_type: 'upstart'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < '16'
+
+####
 # system group and user, + bash profile for pyenv
 ####
 - group:
