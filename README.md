@@ -78,7 +78,7 @@ Uwsgi will be installed into the virtualenv.  No system packages for Uwsgi will 
 
 The Uwsgi config is here:
 
-`/etc/conf/{{ app_name }}/app_name.ini`
+`/etc/{{ app_name }}/app_name.ini`
 
 This will be used by uwsgi to run your Flask app as a service.
 
