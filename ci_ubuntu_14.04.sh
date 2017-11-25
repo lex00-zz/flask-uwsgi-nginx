@@ -18,3 +18,8 @@ ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.y
 
 # Run the role/playbook with ansible-playbook.
 ansible-playbook -i tests/inventory --extra-vars="@tests/test.json" tests/test.yml --connection=local -vvvv --skip-tags update,copy_host_ssh_id
+
+mkdir -p -m 0775 {{ socket_dir }}
+chown {{ app_user }}:{{ app_user }} {{ socket_dir }}
+
+sudo -u {{ app_user }} {{ venv_dir }}/bin/uwsgi --master --ini {{ app_dir }}/{{ app_name }}.ini
