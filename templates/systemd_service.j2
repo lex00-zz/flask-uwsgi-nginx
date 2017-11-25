@@ -4,7 +4,6 @@ Description={{ app_description }}
 [Service]
 Type=simple
 ExecStart={{ app_dir }}/{{ app_name }}.sh
-# PIDFile={{ uwsgi_pid_file }}
 
 [Install]
 WantedBy=multi-user.target

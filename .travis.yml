@@ -13,13 +13,26 @@ branches:
 
 before_script:
   - docker pull ubuntu:14.04
-  - docker run -dt --name flask-uwsgi-nginx-ubuntu-14.04 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04
-  - docker ps -a
+  - docker pull ubuntu:16.04
 
 script:
-  - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/tests/ci_ubuntu_14.04.sh
-  - docker exec -d flask-uwsgi-nginx-ubuntu-14.04 /opt/flask_github_jobs/flask_github_jobs.sh
-  - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/tests/test.py
+  - echo "######## STARTING TEST FOR UBUNTU TRUSTY - 14.04 ########"
+  - docker run -dt --name flask-uwsgi-nginx-ubuntu-14 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04
+  - docker ps -a
+  - docker exec flask-uwsgi-nginx-ubuntu-14 /flask-uwsgi-nginx/tests/ci_ubuntu.sh
+  - docker exec -d flask-uwsgi-nginx-ubuntu-14 /opt/flask_github_jobs/flask_github_jobs.sh
+  - docker exec flask-uwsgi-nginx-ubuntu-14 /flask-uwsgi-nginx/tests/test.py
+  - docker stop flask-uwsgi-nginx-ubuntu-14
+  - docker rm flask-uwsgi-nginx-ubuntu-14
+  - echo "######## STARTING TEST FOR UBUNTU XENIAL - 16.04 ########"
+  - docker run -dt --name flask-uwsgi-nginx-ubuntu-16 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:16.04
+  - docker ps -a
+  - docker exec flask-uwsgi-nginx-ubuntu-16 /flask-uwsgi-nginx/tests/ci_ubuntu.sh
+  - docker exec -d flask-uwsgi-nginx-ubuntu-16 /usr/sbin/nginx
+  - docker exec -d flask-uwsgi-nginx-ubuntu-16 /opt/flask_github_jobs/flask_github_jobs.sh
+  - docker exec flask-uwsgi-nginx-ubuntu-16 /flask-uwsgi-nginx/tests/test.py
+  - docker stop flask-uwsgi-nginx-ubuntu-16
+  - docker rm flask-uwsgi-nginx-ubuntu-16
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

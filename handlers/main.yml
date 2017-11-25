@@ -1,22 +1,43 @@
 ---
 
-- name: 'Ubuntu 14 stop {{ app_name }}'
+####
+# WHY THE SEPARATE HANDLERS?
+# UPSTART RESTART DOES NOT WORK IF THE SERVICE IS STOPPED
+# THIS IS WHY SEPARATE STOP/START HANDLERS ARE USED FOR 14.04
+#
+# DAEMON_RELOAD SUPPORT FOR APP HANDLER FAILS IN DOCKER
+#### WE TEST IN DOCKERS IN TRAVIS SO THIS IS A PROBLEM
+#
+# THE REGULAR SERVICE MODULE IS FINE FOR NGINX
+# 14.04 DOCKER UPSTART WORKS WITH NGINX
+# 16.04 DOCKER SYSTEMD DOES NOT WORK WITH NGINX, WE START MANUALLY
+####
+
+- name: 'Ubuntu upstart stop {{ app_name }}'
   service:
     name: '{{ app_name }}'
     state: stopped
     enabled: yes
     use: service
 
-- name: 'Ubuntu 14 start {{ app_name }}'
+- name: 'Ubuntu upstart start {{ app_name }}'
   service:
     name: '{{ app_name }}'
     state: started
     enabled: yes
     use: service
 
-- name: 'Ubuntu 14 restart nginx'
+- name: 'Ubuntu systemd restart {{ app_name }}'
+  systemd:
+    name: '{{ app_name }}'
+    state: restarted
+    enabled: yes
+#    daemon_reload: yes
+
+- name: 'restart nginx'
   service:
     name: 'nginx'
     state: restarted
     enabled: yes
     use: service
+#    daemon_reload: yes

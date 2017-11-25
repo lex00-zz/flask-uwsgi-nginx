@@ -6,7 +6,6 @@
 
 - import_tasks: 'build.yml'
 
-- import_tasks: 'service-ubuntu-14.yml'
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '14'
+- import_tasks: 'service.yml'
 
 - import_tasks: 'nginx.yml'

@@ -1,0 +1,7 @@
+---
+
+- import_tasks: 'service-ubuntu-upstart.yml'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '14'
+
+- import_tasks: 'service-ubuntu-systemd.yml'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version >= '16'

@@ -1,7 +1,3 @@
-###
-# SET ALL OF THESE
-###
-
 # python repository containing flask application
 app_repo_url: ''
 
@@ -37,28 +33,3 @@ uwsgi_process_count: 4
 
 # number of uwsgi threads
 uwsgi_thread_count: 2
-
-
-###
-# (NO NEED TO EDIT BELOW THIS LINE)
-###
-app_source_dir: '/var/cache/{{ app_name }}'
-app_build_dir: '{{ app_source_dir }}/{{ app_subfolder }}'
-wheelhouse_dir: '{{ app_build_dir }}/wheelhouse'
-config_dir: '/etc/{{ app_name }}'
-log_dir: '/var/log/{{ app_name }}'
-app_dir: '/opt/{{ app_name }}'
-venv_dir: '{{ app_dir }}/venv'
-venv_python_binary:  '{{ app_dir }}/venv/bin/python'
-venv_pip_binary:  '{{ app_dir }}/venv/bin/pip'
-socket_dir: '/var/run/{{ app_name }}'
-uwsgi_pid_file: '{{ socket_dir }}/{{ app_name }}.pid'
-uwsgi_socket_file: '{{ socket_dir }}/{{ app_name }}.sock'
-pyenv_base: '/home/{{ app_user }}/.pyenv'
-pyenv_binary: '{{ pyenv_base }}/bin/pyenv'
-
-python_version: ''
-python_base: ''
-pip_binary: ''
-python_binary: ''
-venv_binary: ''
