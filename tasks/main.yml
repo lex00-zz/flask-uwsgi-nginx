@@ -9,5 +9,3 @@
 - import_tasks: 'service.yml'
 
 - import_tasks: 'nginx.yml'
-
-- import_tasks: 'tests.yml'

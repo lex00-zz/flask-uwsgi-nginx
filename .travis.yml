@@ -18,3 +18,7 @@ before_script:
 
 script:
   - docker exec -it flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/ci_ubuntu_14.04.sh
+  - python tests/test.py
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
