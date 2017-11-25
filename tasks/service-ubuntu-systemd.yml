@@ -28,9 +28,12 @@
   notify:
     - '{{ ansible_distribution }} systemd restart {{ app_name }}'
 
+- shell: 'echo is_docker = {{ is_docker }}'
+
 - name: 'systemd start {{ app_name }}'
   systemd:
     name: '{{ app_name }}'
     state: started
     enabled: yes
-#    daemon_reload: yes
+    daemon_reload: yes
+  when: not is_docker

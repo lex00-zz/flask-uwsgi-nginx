@@ -1,6 +1,17 @@
 ---
 
 ####
+# IF WE ARE IN DOCKER, SET TRUE
+####
+- name: detect docker
+  raw: grep docker /proc/1/cgroup
+  register: detect_docker
+  ignore_errors: True
+- set_fact:
+    is_docker: True
+  when: detect_docker.rc == 0
+
+####
 # system group and user, + bash profile for pyenv
 ####
 - group:

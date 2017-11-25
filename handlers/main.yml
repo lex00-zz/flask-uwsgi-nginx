@@ -6,7 +6,7 @@
 # THIS IS WHY SEPARATE STOP/START HANDLERS ARE USED FOR 14.04
 #
 # DAEMON_RELOAD SUPPORT FOR APP HANDLER FAILS IN DOCKER
-#### WE TEST IN DOCKERS IN TRAVIS SO THIS IS A PROBLEM
+#### THIS IS WHY WE ONLY TEST IN 14.04 IN TRAVIS :(
 #
 # THE REGULAR SERVICE MODULE IS FINE FOR NGINX
 # 14.04 DOCKER UPSTART WORKS WITH NGINX
@@ -32,12 +32,13 @@
     name: '{{ app_name }}'
     state: restarted
     enabled: yes
-#    daemon_reload: yes
+    daemon_reload: yes
+  when: not is_docker
 
 - name: 'restart nginx'
-  service:
+  systemd:
     name: 'nginx'
     state: restarted
     enabled: yes
-    use: service
-#    daemon_reload: yes
+    daemon_reload: yes
+  when: not is_docker
