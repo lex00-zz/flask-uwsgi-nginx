@@ -13,12 +13,13 @@ branches:
 
 before_script:
   - docker pull ubuntu:14.04
-  - docker run -dit --name flask-uwsgi-nginx-ubuntu-14.04 -p 3000:3000 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04
+  - docker run -dt --name flask-uwsgi-nginx-ubuntu-14.04 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:14.04
   - docker ps -a
 
 script:
-  - docker exec -it flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/ci_ubuntu_14.04.sh
-  - python tests/test.py
+  - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/ci_ubuntu_14.04.sh
+  - docker exec -d flask-uwsgi-nginx-ubuntu-14.04 /opt/flask_github_jobs/flask_github_jobs.sh
+  - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/tests/test.py
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

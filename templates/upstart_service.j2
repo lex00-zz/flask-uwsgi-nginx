@@ -8,9 +8,4 @@ console log
 respawn
 respawn limit 10 5
 
-pre-start script
-    mkdir -p -m 0775 {{ socket_dir }}
-    chown {{ app_user }}:{{ app_user }} {{ socket_dir }}
-end script
-
-exec sudo -u {{ app_user }} {{ venv_dir }}/bin/uwsgi --master --ini {{ app_dir }}/{{ app_name }}.ini
+exec {{ app_dir }}/{{ app_name }}.sh

@@ -85,4 +85,8 @@ Vagrant.configure("2") do |config|
     ansible.config_file = "ansible.cfg"
     ansible.playbook = "tests/test.yml"
   end
+  config.vm.provision "shell", inline: <<-SHELL
+     cd /vagrant/tests
+     python test.py
+  SHELL
 end

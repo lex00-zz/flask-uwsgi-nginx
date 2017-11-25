@@ -1,4 +1,29 @@
 ---
+# GET REPO VERSION
+- name: get app source version
+  shell: 'python setup.py --version chdir={{ app_build_dir }}'
+  register: python_source_version_out
+- set_fact:
+    app_source_version: '{{ python_source_version_out.stdout }}'
+
+# GET INSTALLED VERSION
+- set_fact:
+    app_installed_version: ''
+- stat:
+    path: '{{ venv_dir }}/bin/pip'
+  register: venv_exists
+- name: get app installed version
+  shell: '{{ venv_dir }}/bin/pip show {{ app_module }} | grep Version'
+  register: python_installed_version_out
+  when: venv_exists.stat.exists == True
+- set_fact:
+    app_installed_version: '{{ python_installed_version_out.stdout }}'
+  when: venv_exists.stat.exists == True
+
+# BAIL IF VERSIONS ARE THE SAME
+- meta: end_play
+  when: 'app_source_version in app_installed_version'
+
 ####
 # wipe build directories clean
 ####

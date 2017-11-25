@@ -47,8 +47,11 @@ The role packages your Flask app as a wheel and then installs it into a virtuale
 **app_health_ep**: '/'
 -   health endpoint
 
-**uwsgi_process_count**: '10'
+**uwsgi_process_count**: '4'
 -   number of uwsgi processes
+
+**uwsgi_thread_count**: '2'
+-   number of uwsgi threads
 
 ## Dependencies
 

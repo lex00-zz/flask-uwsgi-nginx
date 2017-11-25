@@ -9,5 +9,6 @@
   "app_callable": "app",
   "app_port": "3000",
   "app_health_ep": "/health",
-  "uwsgi_process_count": "10"
+  "uwsgi_process_count": "4",
+  "uwsgi_thread_count": "2"
 }

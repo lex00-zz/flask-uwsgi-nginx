@@ -5,11 +5,13 @@ home = {{ venv_dir }}
 callable = {{ app_callable }}
 
 socket = {{ uwsgi_socket_file }}
-pidfile = {{ uwsgi_pid_file }}
+#pidfile = {{ uwsgi_pid_file }}
 chmod-socket = 664
 chown-socket = {{ app_user }}:{{ app_user }}
 
 master = true
+enable-threads = true
+threads = {{ uwsgi_thread_count }}
 processes = {{ uwsgi_process_count }}
 die-on-term = true
 
