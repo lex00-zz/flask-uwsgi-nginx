@@ -42,6 +42,7 @@ uwsgi_process_count: 10
 app_source_dir: '/var/cache/{{ app_name }}'
 app_build_dir: '{{ app_source_dir }}/{{ app_subfolder }}'
 wheelhouse_dir: '{{ app_build_dir }}/wheelhouse'
+config_dir: '/etc/{{ app_name }}'
 log_dir: '/var/log/{{ app_name }}'
 app_dir: '/opt/{{ app_name }}'
 venv_dir: '{{ app_dir }}/venv'

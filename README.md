@@ -78,17 +78,13 @@ Uwsgi will be installed into the virtualenv.  No system packages for Uwsgi will 
 
 The Uwsgi config is here:
 
-`/opt/{{ app_name }}/app_name.ini`
+`/etc/conf/{{ app_name }}/app_name.ini`
 
 This will be used by uwsgi to run your Flask app as a service.
 
 -   socket file
 
     `/var/run/{{ app_name }}/{{ app_name }}.sock`
-
--   pid file
-
-    `/var/run/{{ app_name }}/{{ app_name }}.pid`
 
 ## Flask static assets
 
@@ -104,12 +100,12 @@ For this to work:
 
 ## service management
 
-Start/Stop the Uwsgi service
+Ubuntu 14.04 Start/Stop the Uwsgi service
 ```sh
 sudo start {{ app_name }}
 ```
 
-Start/Stop Nginx
+Ubuntu 14.04 Start/Stop Nginx
 ```sh
 sudo start nginx
 ```

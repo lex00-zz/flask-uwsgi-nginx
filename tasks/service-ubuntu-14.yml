@@ -21,18 +21,18 @@
     group: '{{ app_user }}'
     mode: 'u=rwx,g=rx,o=rx'
   notify:
-    - 'stop {{ app_name }}'
-    - 'start {{ app_name }}'
+    - '{{ ansible_distribution }} {{ ansible_distribution_major_version }} stop {{ app_name }}'
+    - '{{ ansible_distribution }} {{ ansible_distribution_major_version }} start {{ app_name }}'
 - name: uwsgi configs
   template:
     src: templates/uwsgi.ini.j2
-    dest: "{{ app_dir }}/{{ app_name }}.ini"
+    dest: "{{ config_dir }}/{{ app_name }}.ini"
     owner: '{{ app_user }}'
     group: '{{ app_user }}'
     mode: 'u=rwx,g=r,o=r'
   notify:
-    - 'stop {{ app_name }}'
-    - 'start {{ app_name }}'
+    - '{{ ansible_distribution }} {{ ansible_distribution_major_version }} stop {{ app_name }}'
+    - '{{ ansible_distribution }} {{ ansible_distribution_major_version }} start {{ app_name }}'
 
 # this flush + started we need every time
 # our upstart script does not support restart...

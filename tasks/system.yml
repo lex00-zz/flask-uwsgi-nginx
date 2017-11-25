@@ -31,6 +31,11 @@
     - '{{ log_dir }}'
     - '{{ app_dir }}'
     - '{{ app_source_dir }}'
+    - '{{ config_dir }}'
+- file:
+    src: '{{ config_dir }}'
+    dest: '{{ app_dir }}/conf'
+    state: link
 
 ####
 # add nginx user to app group

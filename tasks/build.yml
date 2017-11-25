@@ -20,52 +20,6 @@
     app_installed_version: '{{ python_installed_version_out.stdout }}'
   when: venv_exists.stat.exists == True
 
-# BAIL IF VERSIONS ARE THE SAME
-- meta: end_play
-  when: 'app_source_version in app_installed_version'
-
-####
-# wipe build directories clean
-####
-- name: cleanup dist
-  file:
-    state: absent
-    path: '{{ app_source_dir }}/dist'
-- name: cleanup wheelhouse
-  file:
-    state: absent
-    path: '{{ wheelhouse_dir }}'
-- name: cleanup venv
-  file:
-    state: absent
-    path: '{{ venv_dir }}'
-
-####
-# build wheelhouse and install to a venv
-####
-- name: uwsgi system dependencies
-  package:
-    name: '{{ item }}'
-    state: present
-  with_items:
-    - libpcre3
-    - libpcre3-dev
-- name: build wheel
-  command: '{{ python_binary }} setup.py bdist_wheel chdir={{ app_build_dir }}'
-- name: get wheel name
-  shell: 'ls -1 dist/*.whl chdir={{ app_build_dir }}'
-  register: wheel_name
-- name: build wheelhouse
-  command: '{{ pip_binary }} wheel --wheel-dir={{ wheelhouse_dir }} {{ wheel_name.stdout }} chdir={{ app_build_dir }}'
-- name: create venv
-  command: '{{ venv_binary }} {{ venv_dir }}'
-  become: yes
-  become_user: '{{ app_user }}'
-- name: install uwsgi
-  command: '{{ venv_pip_binary }} install uwsgi'
-  become: yes
-  become_user: '{{ app_user }}'
-- name: install app from cached wheels
-  command: '{{ venv_pip_binary }} install --use-wheel --no-index --find-links={{ wheelhouse_dir }} {{ app_module }} chdir={{ app_build_dir }}'
-  become: yes
-  become_user: '{{ app_user }}'
+# IF VERSIONS ARE DIFFERENT, RUN THE BUILD
+- import_tasks: 'build_exec.yml'
+  when: 'app_source_version not in app_installed_version'

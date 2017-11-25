@@ -17,7 +17,7 @@ before_script:
   - docker ps -a
 
 script:
-  - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/ci_ubuntu_14.04.sh
+  - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/tests/ci_ubuntu_14.04.sh
   - docker exec -d flask-uwsgi-nginx-ubuntu-14.04 /opt/flask_github_jobs/flask_github_jobs.sh
   - docker exec flask-uwsgi-nginx-ubuntu-14.04 /flask-uwsgi-nginx/tests/test.py
 
