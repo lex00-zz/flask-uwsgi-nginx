@@ -36,9 +36,9 @@
   when: not is_docker
 
 - name: 'restart nginx'
-  systemd:
+  service:
     name: 'nginx'
     state: restarted
     enabled: yes
-    daemon_reload: yes
+    use: service
   when: not is_docker
