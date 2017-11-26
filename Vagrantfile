@@ -25,7 +25,19 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   #config.vm.box = "ubuntu/trusty64"
-  config.vm.box = "ubuntu/xenial64"
+  #config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/zesty64"
+
+  # notes on artful
+  ## need to install pip
+  ####wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py
+  ####python3 /tmp/get-pip.py
+  ## might run out of space, set in JSON
+  #### "pyenv_base": "/vagrant/pyenv",
+  ## still.. "ERROR: invalid Python executable: /vagrant/pyenv/versions/3.6.2/bin/python3.6"
+  ## maybe related to below issue:
+  #### https://github.com/pyenv/pyenv/issues/1029
+  #config.vm.box = "ubuntu/artful64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -77,9 +89,9 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  #config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+     apt-get update
+  SHELL
   config.vm.provision "ansible", type: "ansible_local" do |ansible|
     ansible.verbose = true
     ansible.extra_vars = "tests/test.json"

@@ -31,6 +31,14 @@ script:
   - docker exec flask-uwsgi-nginx-ubuntu-16 /flask-uwsgi-nginx/tests/test.py
   - docker stop flask-uwsgi-nginx-ubuntu-16
   - docker rm flask-uwsgi-nginx-ubuntu-16
+  - docker run -dt --name flask-uwsgi-nginx-ubuntu-17.04 --privileged -v $(pwd)/:/flask-uwsgi-nginx ubuntu:17.04
+  - docker ps -a
+  - docker exec flask-uwsgi-nginx-ubuntu-17.04 /flask-uwsgi-nginx/tests/ci_ubuntu.sh
+  - docker exec -d flask-uwsgi-nginx-ubuntu-17.04 /usr/sbin/nginx
+  - docker exec -d flask-uwsgi-nginx-ubuntu-17.04 /opt/flask_github_jobs/flask_github_jobs.sh
+  - docker exec flask-uwsgi-nginx-ubuntu-17.04 /flask-uwsgi-nginx/tests/test.py
+  - docker stop flask-uwsgi-nginx-ubuntu-17.04
+  - docker rm flask-uwsgi-nginx-ubuntu-17.04
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

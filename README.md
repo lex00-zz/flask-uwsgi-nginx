@@ -68,23 +68,30 @@ None
 
 ## Python configuration
 
-`pyenv` will be used to install the version of Python in your `.python-version` file in `/home/{{ app_user }}/.pyenv`.
+You can use any version of Python you like.
 
-A virtualenv will be placed in `/opt/{{ app_name }}/venv`.
+-   `.python-version` fiule
+    -   Your project must have this file
+
+
+-   `/home/{{ app_user }}/.pyenv/versions`
+    -   `pyenv` will build and install Python here
+
+
+-   `/opt/{{ app_name }}/venv`
+    -   The application will be installed into this virtualenv
 
 ## Uwsgi configuration
 
 Uwsgi will be installed into the virtualenv.  No system packages for Uwsgi will be installed.
 
-The Uwsgi config is here:
+-   `/etc/{{ app_name }}/app_name.ini`
+    -   Uwsgi configuration file
 
-`/etc/{{ app_name }}/app_name.ini`
 
-This will be used by uwsgi to run your Flask app as a service.
+-   `/var/run/{{ app_name }}/{{ app_name }}.sock`
+    -    Uwsgi socket file
 
--   socket file
-
-    `/var/run/{{ app_name }}/{{ app_name }}.sock`
 
 ## Flask static assets
 
