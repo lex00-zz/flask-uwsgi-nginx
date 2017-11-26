@@ -70,7 +70,7 @@ None
 
 You can use any version of Python you like.
 
--   `.python-version` fiule
+-   `.python-version` file
     -   Your project must have this file
 
 
@@ -115,6 +115,16 @@ sudo start {{ app_name }}
 Ubuntu 14.04 Start/Stop Nginx
 ```sh
 sudo start nginx
+```
+
+Ubuntu >= 16 Start/Stop the Uwsgi service
+```sh
+sudo systemctl start {{ app_name }}
+```
+
+Ubuntu >= 16 Start/Stop Nginx
+```sh
+sudo systemctl start nginx
 ```
 
 ## logs
